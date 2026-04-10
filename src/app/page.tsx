@@ -212,7 +212,7 @@ export default function Home() {
         </div>
 
         {/* Center: Configurator */}
-        <div className={`${activePanel === "config" ? "flex" : "hidden"} lg:flex flex-col w-full lg:w-80 xl:w-96 border-r border-dark-300 bg-dark-500/30 shrink-0`}>
+        <div className={`${activePanel === "config" ? "flex" : "hidden"} lg:flex flex-col w-full lg:w-80 xl:w-96 border-x-2 border-dark-400 bg-dark-500/30 shrink-0`}>
           <div className="terminal-header shrink-0">
             <span className="terminal-dot red" />
             <span className="terminal-dot yellow" />

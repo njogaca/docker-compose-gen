@@ -78,14 +78,14 @@ export default function YamlPreview({ yaml }: Props) {
       <div className="flex-1 overflow-auto">
         <div className="flex min-h-full">
           {/* Line numbers */}
-          <div className="select-none px-3 py-4 text-right font-mono text-[11px] leading-5 text-dark-200 border-r border-dark-300 bg-dark-500/50 min-w-[42px]">
+          <div className="select-none px-3 py-4 text-right font-mono text-[12px] leading-6 text-dark-200 border-r border-dark-300 bg-dark-500/50 min-w-[42px]">
             {yaml.split("\n").map((_, i) => (
               <div key={i}>{i + 1}</div>
             ))}
           </div>
           {/* Code content */}
           <pre
-            className="flex-1 p-4 font-mono text-[11px] leading-5 overflow-x-auto"
+            className="flex-1 px-6 py-4 font-mono text-[12px] leading-6 overflow-x-auto"
             dangerouslySetInnerHTML={{ __html: highlighted }}
           />
         </div>
