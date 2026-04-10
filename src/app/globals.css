@@ -1,34 +1,15 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "tailwindcss";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme inline {
+  --color-dark-600: #060b08;
+  --color-dark-500: #0d1710;
+  --color-dark-400: #152118;
+  --color-dark-300: #1e2e20;
+  --color-dark-200: #4a6b4e;
+  --color-dark-100: #8aab8e;
+  --color-dark-50: #d4e4d8;
+  --color-green-400: #4ade80;
+  --color-green-500: #3d8b5e;
 }
 
 * {
@@ -37,13 +18,80 @@ body {
   margin: 0;
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-dark-600);
+  color: var(--color-dark-50);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 a {
   color: inherit;
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
+::-webkit-scrollbar-track {
+  background: var(--color-dark-500);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-dark-300);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dark-200);
+}
+
+.terminal-window {
+  background: var(--color-dark-500);
+  border: 1px solid var(--color-dark-300);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--color-dark-400);
+  border-bottom: 1px solid var(--color-dark-300);
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.terminal-dot.red { background: #ff5f57; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #28c840; }
+
+.terminal-title {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  color: var(--color-dark-100);
+  margin-left: 4px;
+}
+
+.terminal-body {
+  padding: 16px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+}
+
+/* YAML syntax highlighting */
+.yaml-key { color: #4ade80; }
+.yaml-string { color: #fbbf24; }
+.yaml-number { color: #60a5fa; }
+.yaml-comment { color: #4a6b4e; font-style: italic; }
+.yaml-bool { color: #f87171; }
+.yaml-indent { color: var(--color-dark-100); }
