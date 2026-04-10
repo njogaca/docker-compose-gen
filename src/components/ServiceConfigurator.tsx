@@ -47,7 +47,7 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2">
+    <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
       {instances.map((svc, idx) => {
         const template = SERVICE_CATALOG.find((t) => t.id === svc.templateId);
         const isOpen = openId === svc.instanceId;
@@ -56,24 +56,24 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
           <div key={svc.instanceId} className="terminal-window">
             {/* Row header */}
             <div
-              className="terminal-body py-2 flex items-center gap-2 cursor-pointer select-none"
+              className="terminal-body py-3 flex items-center gap-3 cursor-pointer select-none"
               onClick={() => setOpenId(isOpen ? null : svc.instanceId)}
             >
-              <span className="text-base leading-none">{template?.icon ?? "📦"}</span>
-              <span className="text-green-400 font-mono text-xs font-semibold flex-1 truncate">
+              <span className="text-lg leading-none">{template?.icon ?? "📦"}</span>
+              <span className="text-green-400 font-mono text-sm font-semibold flex-1 truncate">
                 {svc.serviceName}
               </span>
               <span className="text-[10px] font-mono text-dark-200 shrink-0">
                 {svc.image}:{svc.imageTag}
               </span>
-              <div className="flex items-center gap-1 ml-1">
-                <button onClick={(e) => { e.stopPropagation(); moveUp(idx); }} className="text-dark-200 hover:text-dark-50 p-0.5" title="Move up">
+              <div className="flex items-center gap-1.5 ml-2">
+                <button onClick={(e) => { e.stopPropagation(); moveUp(idx); }} className="text-dark-200 hover:text-dark-50 p-1" title="Move up">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="18 15 12 9 6 15"/></svg>
                 </button>
-                <button onClick={(e) => { e.stopPropagation(); moveDown(idx); }} className="text-dark-200 hover:text-dark-50 p-0.5" title="Move down">
+                <button onClick={(e) => { e.stopPropagation(); moveDown(idx); }} className="text-dark-200 hover:text-dark-50 p-1" title="Move down">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
-                <button onClick={(e) => { e.stopPropagation(); remove(svc.instanceId); }} className="text-dark-200 hover:text-red-400 p-0.5 ml-1" title="Remove">
+                <button onClick={(e) => { e.stopPropagation(); remove(svc.instanceId); }} className="text-dark-200 hover:text-red-400 p-1 ml-1" title="Remove">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
               </div>
@@ -81,36 +81,36 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
 
             {/* Expanded config */}
             {isOpen && (
-              <div className="border-t border-dark-300 p-3 flex flex-col gap-3">
+              <div className="border-t border-dark-300 p-4 flex flex-col gap-4">
                 {/* Service name + image tag */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="flex flex-col gap-1">
-                    <span className="text-[10px] font-mono text-dark-200">Service name</span>
+                <div className="grid grid-cols-2 gap-3">
+                  <label className="flex flex-col gap-1.5">
+                    <span className="text-[10px] font-mono text-dark-200 uppercase tracking-wide">Service name</span>
                     <input
                       type="text"
                       value={svc.serviceName}
                       onChange={(e) => update(svc.instanceId, { serviceName: e.target.value })}
-                      className="bg-dark-400 border border-dark-300 rounded px-2 py-1 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
+                      className="bg-dark-400 border border-dark-300 rounded px-3 py-1.5 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
                     />
                   </label>
-                  <label className="flex flex-col gap-1">
-                    <span className="text-[10px] font-mono text-dark-200">Image tag</span>
+                  <label className="flex flex-col gap-1.5">
+                    <span className="text-[10px] font-mono text-dark-200 uppercase tracking-wide">Image tag</span>
                     <input
                       type="text"
                       value={svc.imageTag}
                       onChange={(e) => update(svc.instanceId, { imageTag: e.target.value })}
-                      className="bg-dark-400 border border-dark-300 rounded px-2 py-1 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
+                      className="bg-dark-400 border border-dark-300 rounded px-3 py-1.5 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
                     />
                   </label>
                 </div>
 
                 {/* Restart policy */}
-                <label className="flex flex-col gap-1">
-                  <span className="text-[10px] font-mono text-dark-200">Restart policy</span>
+                <label className="flex flex-col gap-1.5">
+                  <span className="text-[10px] font-mono text-dark-200 uppercase tracking-wide">Restart policy</span>
                   <select
                     value={svc.restart}
                     onChange={(e) => update(svc.instanceId, { restart: e.target.value as ServiceInstance["restart"] })}
-                    className="bg-dark-400 border border-dark-300 rounded px-2 py-1 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
+                    className="bg-dark-400 border border-dark-300 rounded px-3 py-1.5 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
                   >
                     <option value="no">no</option>
                     <option value="always">always</option>
@@ -121,8 +121,8 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
 
                 {/* Ports */}
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] font-mono text-dark-200">Ports</span>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono text-dark-200 uppercase tracking-wide">Ports</span>
                     <button
                       onClick={() => update(svc.instanceId, {
                         ports: [...svc.ports, { host: "", container: "" }],
@@ -133,7 +133,7 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
                     </button>
                   </div>
                   {svc.ports.map((p, pi) => (
-                    <div key={pi} className="flex items-center gap-1 mb-1">
+                    <div key={pi} className="flex items-center gap-2 mb-2">
                       <input
                         type="text"
                         value={p.host}
@@ -143,7 +143,7 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
                           ports[pi] = { ...ports[pi], host: e.target.value };
                           update(svc.instanceId, { ports });
                         }}
-                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-2 py-1 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
+                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-3 py-1.5 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
                       />
                       <span className="text-dark-200 font-mono text-xs">:</span>
                       <input
@@ -155,11 +155,11 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
                           ports[pi] = { ...ports[pi], container: e.target.value };
                           update(svc.instanceId, { ports });
                         }}
-                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-2 py-1 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
+                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-3 py-1.5 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
                       />
                       <button
                         onClick={() => update(svc.instanceId, { ports: svc.ports.filter((_, i) => i !== pi) })}
-                        className="text-dark-200 hover:text-red-400"
+                        className="text-dark-200 hover:text-red-400 p-1"
                       >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                       </button>
@@ -169,8 +169,8 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
 
                 {/* Environment variables */}
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] font-mono text-dark-200">Environment variables</span>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono text-dark-200 uppercase tracking-wide">Environment variables</span>
                     <button
                       onClick={() => update(svc.instanceId, {
                         environment: [...svc.environment, { key: "", value: "" }],
@@ -181,7 +181,7 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
                     </button>
                   </div>
                   {svc.environment.map((env, ei) => (
-                    <div key={ei} className="flex items-center gap-1 mb-1">
+                    <div key={ei} className="flex items-center gap-2 mb-2">
                       <input
                         type="text"
                         value={env.key}
@@ -191,7 +191,7 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
                           environment[ei] = { ...environment[ei], key: e.target.value };
                           update(svc.instanceId, { environment });
                         }}
-                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-2 py-1 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
+                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-3 py-1.5 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
                       />
                       <span className="text-dark-200 font-mono text-xs">=</span>
                       <input
@@ -203,11 +203,11 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
                           environment[ei] = { ...environment[ei], value: e.target.value };
                           update(svc.instanceId, { environment });
                         }}
-                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-2 py-1 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
+                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-3 py-1.5 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
                       />
                       <button
                         onClick={() => update(svc.instanceId, { environment: svc.environment.filter((_, i) => i !== ei) })}
-                        className="text-dark-200 hover:text-red-400"
+                        className="text-dark-200 hover:text-red-400 p-1"
                       >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                       </button>
@@ -217,8 +217,8 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
 
                 {/* Volumes */}
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] font-mono text-dark-200">Volumes</span>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono text-dark-200 uppercase tracking-wide">Volumes</span>
                     <button
                       onClick={() => update(svc.instanceId, {
                         volumes: [...svc.volumes, { host: "", container: "" }],
@@ -229,7 +229,7 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
                     </button>
                   </div>
                   {svc.volumes.map((v, vi) => (
-                    <div key={vi} className="flex items-center gap-1 mb-1">
+                    <div key={vi} className="flex items-center gap-2 mb-2">
                       <input
                         type="text"
                         value={v.host}
@@ -239,7 +239,7 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
                           volumes[vi] = { ...volumes[vi], host: e.target.value };
                           update(svc.instanceId, { volumes });
                         }}
-                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-2 py-1 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
+                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-3 py-1.5 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
                       />
                       <span className="text-dark-200 font-mono text-xs">:</span>
                       <input
@@ -251,11 +251,11 @@ export default function ServiceConfigurator({ instances, onChange }: Props) {
                           volumes[vi] = { ...volumes[vi], container: e.target.value };
                           update(svc.instanceId, { volumes });
                         }}
-                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-2 py-1 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
+                        className="flex-1 bg-dark-400 border border-dark-300 rounded px-3 py-1.5 text-xs font-mono text-dark-50 focus:outline-none focus:border-green-500/50"
                       />
                       <button
                         onClick={() => update(svc.instanceId, { volumes: svc.volumes.filter((_, i) => i !== vi) })}
-                        className="text-dark-200 hover:text-red-400"
+                        className="text-dark-200 hover:text-red-400 p-1"
                       >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                       </button>
