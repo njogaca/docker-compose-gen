@@ -24,37 +24,45 @@ export default function ServiceCard({ template, onAdd }: Props) {
   const catColor = categoryColors[template.category] ?? "text-dark-100 border-dark-300 bg-dark-400";
 
   return (
-    <div className="terminal-window group hover:border-green-500/40 transition-all flex flex-col">
-      <div className="terminal-body flex flex-col gap-2 h-full">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="text-xl leading-none">{template.icon}</span>
-            <span className="font-semibold text-dark-50 text-sm">{template.name}</span>
-          </div>
-          <span className={`shrink-0 text-[10px] font-mono px-1.5 py-0.5 rounded border ${catColor}`}>
+    <div
+      className="group relative flex items-center gap-2 px-2.5 py-2 rounded border border-dark-300 bg-dark-500 hover:border-green-500/40 hover:bg-dark-400 transition-all cursor-default"
+      title={template.description}
+    >
+      {/* Icon */}
+      <span className="text-base leading-none shrink-0">{template.icon}</span>
+
+      {/* Name + port */}
+      <div className="flex-1 min-w-0">
+        <p className="text-xs font-semibold text-dark-50 truncate leading-tight">
+          {template.name}
+        </p>
+        <p className="text-[10px] font-mono text-dark-200 leading-tight">
+          :{template.defaultPort}
+        </p>
+      </div>
+
+      {/* Add button */}
+      <button
+        onClick={() => onAdd(template)}
+        className="shrink-0 w-6 h-6 flex items-center justify-center rounded border border-dark-300 text-dark-200 hover:border-green-500/50 hover:text-green-400 hover:bg-green-500/10 transition-all"
+        title={`Add ${template.name}`}
+      >
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+      </button>
+
+      {/* Tooltip on hover */}
+      <div className="pointer-events-none absolute left-full top-0 ml-2 z-50 w-52 p-2.5 rounded border border-dark-300 bg-dark-400 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity hidden lg:block">
+        <p className="text-[10px] font-mono mb-1">
+          <span className={`px-1 py-0.5 rounded border text-[9px] ${catColor}`}>
             {template.category}
           </span>
-        </div>
-
-        <p className="text-xs text-dark-100 leading-relaxed flex-1">
+        </p>
+        <p className="text-[11px] text-dark-50 leading-relaxed">
           {template.description}
         </p>
-
-        <div className="flex items-center justify-between pt-2 border-t border-dark-300">
-          <span className="text-[10px] font-mono text-dark-200">
-            :{template.defaultPort}
-          </span>
-          <button
-            onClick={() => onAdd(template)}
-            className="flex items-center gap-1 text-[11px] font-mono text-green-400 hover:text-green-300 transition-colors"
-          >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-            Add
-          </button>
-        </div>
       </div>
     </div>
   );

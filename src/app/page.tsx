@@ -49,6 +49,17 @@ export default function Home() {
     });
   }, [search, category]);
 
+  // When showing all, group by category
+  const grouped = useMemo(() => {
+    if (category !== "all" || search) return null;
+    const groups: Record<string, typeof filtered> = {};
+    for (const t of filtered) {
+      if (!groups[t.category]) groups[t.category] = [];
+      groups[t.category].push(t);
+    }
+    return groups;
+  }, [filtered, category, search]);
+
   const addService = (template: ServiceTemplate) => {
     setInstances((prev) => [...prev, buildInstance(template)]);
     setActivePanel("config");
@@ -170,13 +181,32 @@ export default function Home() {
           </div>
 
           {/* Service cards */}
-          <div className="flex-1 overflow-y-auto p-3 grid grid-cols-1 gap-2">
+          <div className="flex-1 overflow-y-auto p-3">
             {filtered.length === 0 ? (
-              <p className="text-xs font-mono text-dark-200 col-span-full text-center py-8">No services found</p>
+              <p className="text-xs font-mono text-dark-200 text-center py-8">No services found</p>
+            ) : grouped ? (
+              // Grouped by category (when "All" is selected)
+              <div className="flex flex-col gap-4">
+                {CATEGORIES.filter((c) => c.id !== "all" && grouped[c.id]?.length).map((cat) => (
+                  <div key={cat.id}>
+                    <p className="text-[10px] font-mono text-dark-200 uppercase tracking-widest mb-1.5 px-0.5">
+                      {cat.label} <span className="text-dark-300">({grouped[cat.id].length})</span>
+                    </p>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {grouped[cat.id].map((t) => (
+                        <ServiceCard key={t.id} template={t} onAdd={addService} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : (
-              filtered.map((t) => (
-                <ServiceCard key={t.id} template={t} onAdd={addService} />
-              ))
+              // Single category or search results — 2-col grid
+              <div className="grid grid-cols-2 gap-1.5">
+                {filtered.map((t) => (
+                  <ServiceCard key={t.id} template={t} onAdd={addService} />
+                ))}
+              </div>
             )}
           </div>
         </div>
