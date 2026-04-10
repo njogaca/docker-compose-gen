@@ -15,7 +15,7 @@ export interface ServiceTemplate {
   id: string;
   name: string;
   image: string;
-  category: "database" | "cache" | "messaging" | "webserver" | "monitoring" | "devtools";
+  category: "database" | "cache" | "messaging" | "webserver" | "monitoring" | "devtools" | "python" | "ibm" | "security" | "testing";
   description: string;
   defaultPort: number;
   fields: ServiceField[];

@@ -14,6 +14,10 @@ const categoryColors: Record<string, string> = {
   webserver: "text-green-400 border-green-400/30 bg-green-400/5",
   monitoring:"text-orange-400 border-orange-400/30 bg-orange-400/5",
   devtools:  "text-cyan-400 border-cyan-400/30 bg-cyan-400/5",
+  ibm:       "text-blue-300 border-blue-300/30 bg-blue-300/5",
+  security:  "text-red-400 border-red-400/30 bg-red-400/5",
+  testing:   "text-pink-400 border-pink-400/30 bg-pink-400/5",
+  python:    "text-yellow-300 border-yellow-300/30 bg-yellow-300/5",
 };
 
 export default function ServiceCard({ template, onAdd }: Props) {
