@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { SERVICE_CATALOG, CATEGORIES } from "@/lib/catalog";
 import { generateYaml, newId } from "@/lib/generator";
 import ServiceCard from "@/components/ServiceCard";
 import ServiceConfigurator from "@/components/ServiceConfigurator";
 import YamlPreview from "@/components/YamlPreview";
+import ResizeDivider from "@/components/ResizeDivider";
 import type { ServiceTemplate, ServiceInstance, ComposeProject } from "@/lib/types";
 
 function buildInstance(template: ServiceTemplate): ServiceInstance {
@@ -39,6 +40,11 @@ export default function Home() {
   const [category, setCategory] = useState("all");
   const [instances, setInstances] = useState<ServiceInstance[]>([]);
   const [activePanel, setActivePanel] = useState<"catalog" | "config" | "output">("catalog");
+  const [configWidth, setConfigWidth] = useState(320); // px — resizable
+
+  const onResizeConfig = useCallback((delta: number) => {
+    setConfigWidth((w) => Math.max(220, Math.min(600, w + delta)));
+  }, []);
 
   const filtered = useMemo(() => {
     return SERVICE_CATALOG.filter((t) => {
@@ -211,8 +217,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Center: Configurator */}
-        <div className={`${activePanel === "config" ? "flex" : "hidden"} lg:flex flex-col w-full lg:w-80 xl:w-96 border-x-2 border-dark-400 bg-dark-500/30 shrink-0`}>
+        {/* Center: Configurator — resizable */}
+        <div
+          className={`${activePanel === "config" ? "flex" : "hidden"} lg:flex flex-col border-l-2 border-dark-400 bg-dark-500/30 shrink-0`}
+          style={{ width: `${configWidth}px` }}
+        >
           <div className="terminal-header shrink-0">
             <span className="terminal-dot red" />
             <span className="terminal-dot yellow" />
@@ -221,6 +230,11 @@ export default function Home() {
             <span className="ml-auto text-[10px] text-dark-200">{instances.length} added</span>
           </div>
           <ServiceConfigurator instances={instances} onChange={setInstances} />
+        </div>
+
+        {/* Drag handle between config and YAML (desktop only) */}
+        <div className="hidden lg:flex">
+          <ResizeDivider onResize={onResizeConfig} />
         </div>
 
         {/* Right: YAML output */}
