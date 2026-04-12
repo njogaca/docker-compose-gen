@@ -41,6 +41,7 @@ export default function Home() {
   const [instances, setInstances] = useState<ServiceInstance[]>([]);
   const [activePanel, setActivePanel] = useState<"catalog" | "config" | "output">("catalog");
   const [configWidth, setConfigWidth] = useState(320); // px — resizable
+  const [showHelp, setShowHelp] = useState(false);
 
   const onResizeConfig = useCallback((delta: number) => {
     setConfigWidth((w) => Math.max(220, Math.min(600, w + delta)));
@@ -107,7 +108,7 @@ export default function Home() {
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {instances.length > 0 && (
             <span className="text-[10px] font-mono text-green-400 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
@@ -115,12 +116,30 @@ export default function Home() {
             </span>
           )}
           <a
-            href="https://github.com/njogaca"
+            href="https://github.com/njogaca/docker-compose-gen"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-dark-200 hover:text-dark-100 transition-colors"
+            title="View on GitHub"
+            className="text-dark-200 hover:text-dark-50 transition-colors p-1"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </a>
+          <button
+            onClick={() => setShowHelp(true)}
+            className="text-[11px] font-mono text-green-400 hover:text-green-300 border border-green-500/30 rounded px-2 py-1 hover:border-green-400/50 transition-all"
+          >
+            How to use this tool?
+          </button>
+          <a
+            href="https://johangarcia.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Portfolio — Johan Garcia"
+            className="ml-1 flex items-center justify-center w-7 h-7 rounded font-mono text-[11px] font-bold bg-green-500/10 border border-green-500/30 text-green-400 hover:bg-green-500/20 hover:text-green-300 transition-all shrink-0"
+          >
+            JG
           </a>
         </div>
       </header>
@@ -258,6 +277,59 @@ export default function Home() {
           {instances.length} services · {yaml.split("\n").length} lines
         </span>
       </footer>
+
+      {/* Help modal */}
+      {showHelp && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4" onClick={() => setShowHelp(false)}>
+          <div className="bg-dark-500 border border-dark-300 rounded-lg w-full max-w-lg max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-dark-300 sticky top-0 bg-dark-500">
+              <h2 className="font-mono text-sm font-semibold text-dark-50">How to use · Docker Compose Generator</h2>
+              <button onClick={() => setShowHelp(false)} className="text-dark-200 hover:text-dark-50 text-lg leading-none">✕</button>
+            </div>
+            <div className="p-5 space-y-5 text-[12px] font-mono leading-relaxed">
+
+              <section>
+                <h3 className="text-green-400 font-semibold mb-1.5">1 · Browse the catalog</h3>
+                <p className="text-dark-100">The left panel lists all available services grouped by category. Use the search box to find a service by name, or filter by category using the tag buttons.</p>
+                <ul className="mt-2 space-y-1 text-dark-200 list-disc list-inside">
+                  <li>Databases, cache, messaging, monitoring, web servers</li>
+                  <li>IBM (MQ, ACE, DataPower, Db2)</li>
+                  <li>Security, testing & QA, Python tools</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3 className="text-green-400 font-semibold mb-1.5">2 · Add services</h3>
+                <p className="text-dark-100">Click <span className="text-dark-50 bg-dark-400 px-1 rounded">+ Add</span> on any service card. It will appear in the center <span className="text-dark-50">services.config</span> panel. You can add as many services as you need.</p>
+              </section>
+
+              <section>
+                <h3 className="text-green-400 font-semibold mb-1.5">3 · Configure each service</h3>
+                <p className="text-dark-100">In the center panel, expand a service to configure it:</p>
+                <ul className="mt-2 space-y-1 text-dark-200 list-disc list-inside">
+                  <li>Service name and image tag</li>
+                  <li>Port mappings (host:container)</li>
+                  <li>Environment variables</li>
+                  <li>Volume mounts</li>
+                  <li>Restart policy</li>
+                </ul>
+                <p className="mt-2 text-dark-200">Drag the divider between the config and YAML panels to resize them.</p>
+              </section>
+
+              <section>
+                <h3 className="text-green-400 font-semibold mb-1.5">4 · Export your compose file</h3>
+                <p className="text-dark-100">The right panel shows the generated <span className="text-dark-50">docker-compose.yml</span> in real time. Use the <span className="text-dark-50">Copy</span> or <span className="text-dark-50">Download</span> buttons to export it.</p>
+              </section>
+
+              <section>
+                <h3 className="text-green-400 font-semibold mb-1.5">Project name</h3>
+                <p className="text-dark-100">Set the project name in the bar below the header — it becomes the top-level <span className="text-yellow-300">name:</span> field in the compose file.</p>
+              </section>
+
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
